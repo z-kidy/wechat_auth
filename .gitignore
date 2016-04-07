@@ -1,0 +1,8 @@
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+
+# tmp files
+*.swp
+*~
