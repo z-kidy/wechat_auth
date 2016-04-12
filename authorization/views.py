@@ -3,11 +3,12 @@ import hashlib
 import time 
 
 from django.http import HttpResponse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 WEIXIN_TOKEN = 'lvxingjiakidy'
  
-
 @api_view(['GET', 'POST'])
 def index(request):
     if request.method == "GET":
@@ -27,19 +28,18 @@ def index(request):
 
     if request.method == 'POST':
         data = request.data
-        ToUserName = data.get('ToUserName', '')
-        FromUserName = data.get('FromUserName', '')
-        MsgType = data.get('MsgType', '')
-        Content = data.get('Content', '')
-        return Response(
-                    {  'toUserName': FromUserName,
-                       'fromUserName': ToUserName,
-                       'createTime': time.time(),
-                       'msgType': MsgType,
-                       'content': Content,
+        print data
+        toUserName = data.get('ToUserName', '')
+        fromUserName = data.get('FromUserName', '')
+        msgType = data.get('MsgType', '')
+        content = data.get('Content', '')
+
+        return render(request, 'reply.xml',
+                    {  'toUserName': fromUserName,
+                       'fromUserName': toUserName,
+                       'createTime': int(time.time()),
+                       'msgType': msgType,
+                       'content': content,
                     },
             content_type='application/xml'
         )
-
-    
-
