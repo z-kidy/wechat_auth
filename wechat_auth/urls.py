@@ -17,8 +17,13 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from authorization.views import index
 
+# static file for develop
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name='index'),
     url(r'^authorization/', include('authorization.urls')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

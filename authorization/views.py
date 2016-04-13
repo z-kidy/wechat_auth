@@ -5,7 +5,7 @@ import urllib
 import json
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -15,6 +15,11 @@ from wechat_auth.settings import appID, appsecret
 
 @api_view(['GET', 'POST'])
 def index(request):
+    """
+    微信简单通信，
+    GET用于验证签名信息，
+    POST实现一个简单的回复信息
+    """
     if request.method == "GET":
         signature = request.GET.get("signature", None)
         timestamp = request.GET.get("timestamp", None)
@@ -47,8 +52,35 @@ def index(request):
             content_type='application/xml'
         )
 
+def web_auth(request):
+    """
+    网页提示是否授权
+
+    """
+    if request.method == 'GET':
+        return render(request, 'web_auth.html')
+    if request.method == 'POST':
+        flag = int(request.POST.get('flag', 0))   # flag 表示是否同意授权 1/0
+        if flag:
+            data = urllib.urlencode({
+                'appid': appID,
+                'redirect_uri': 'http://121.42.154.163/authorization/code',
+                'response_type': 'code',
+                'scope': 'snsapi_userinfo',
+                'state': 'STATE',
+                })
+            redirect_url = 'https://open.weixin.qq.com/connect/oauth2/authorize?' + data + '#wechat_redirect'
+            return redirect(redirect_url)
+        else:
+            pass
+
+
+
 @api_view(['GET'])
 def get_code(request):
+    """
+    用户授予权限，获取code，通过code获取access_toekn, 再通过access_token获取用户信息
+    """
     if request.method == 'GET':
         code = request.GET.get('code', '')
         if code:
@@ -92,7 +124,7 @@ def get_code(request):
             except Exception, reson:
                 print reson
 
-            info_dic = json.loads(info_response.read())                 # 解析json
+            info_dic = json.loads(info_response.read())          # 解析json
             errcode = info_dic.get('errcode', None)              # 调用失败
             if errcode:
                 raise Warning(str(errcode) + ':' + response_dic.get('errmsg', ''))   # raise 错误原因

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <title>WeUI</title>
+        {% load staticfiles %}
+
+		<link rel="stylesheet" type="text/css" href="{% static 'css/weui.min.css' %}" />
+    </head>
+    <body>
+        <form class="mt10" action="{% url 'web_auth' %}" method="post">
+            <input type="radio" name="flag" value="1">同意授权
+            <input type="submit" class="weui_btn weui_btn_primary" value="Submit">
+            {% csrf_token %}
+        </form>
+    </body>
+</html>
