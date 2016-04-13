@@ -1,0 +1,41 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+    个人信息展示
+{% endblock title %}
+{% block main %}
+<div class="weui_icon_area"><img href="{{ headimgurl }}"></div>
+
+<div class="weui_cell">
+    <div class="weui_cell_bd weui_cell_primary">
+        <p>昵称</p>
+    </div>
+    <div class="weui_cell_ft">{{ nickname }}</div>
+</div>
+
+<div class="weui_cell">
+    <div class="weui_cell_bd weui_cell_primary">
+        <p>性别</p>
+    </div>
+    <div class="weui_cell_ft">
+    {% if sex == 1 %}
+        男
+    {% else if sex == 0 %}
+        女
+    {% else %}
+        未知
+    {% endif %}
+    </div>
+</div>
+
+<div class="weui_cell">
+    <div class="weui_cell_bd weui_cell_primary">
+        <p>城市</p>
+    </div>
+    <div class="weui_cell_ft">{{ country }}  {{ province }}  {{ city }}</div>
+</div>
+
+
+
+{% endblock main %}
