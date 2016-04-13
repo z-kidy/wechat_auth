@@ -134,14 +134,14 @@ def get_code(request):
                 # raise 错误原因
                 raise Warning(
                     str(errcode) + ':' + response_dic.get('errmsg', ''))
-
+	    
             nickname = info_dic.get('nickname', '')
             sex = info_dic.get('sex', 0)
             province = info_dic.get('province', '')
             country = info_dic.get('country', '')
             city = info_dic.get('city', '')
             headimgurl = info_dic.get('headimgurl', '')
-
+	    print info_dic
             return render(request, 'user_info.html',
                           {
                               'nickname': nickname,

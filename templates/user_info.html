@@ -5,7 +5,7 @@
     个人信息展示
 {% endblock title %}
 {% block main %}
-<div class="weui_icon_area"><img href="{{ headimgurl }}"></div>
+<div class="weui_media_hd"><img src="{{ headimgurl }}" style="width:50%;display:block;margin:auto;"></div>
 
 <div class="weui_cell">
     <div class="weui_cell_bd weui_cell_primary">
@@ -21,7 +21,7 @@
     <div class="weui_cell_ft">
     {% if sex == 1 %}
         男
-    {% else if sex == 0 %}
+    {% elif sex == 2 %}
         女
     {% else %}
         未知
