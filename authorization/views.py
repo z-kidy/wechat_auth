@@ -68,7 +68,7 @@ def get_code(request):
             response_dic = json.loads(response.read())                 # 解析json
             errcode = response_dic.get('errcode', None)         # 调用失败
             if errcode:
-                raise Warning(response_dic.get('errmsg', ''))   # raise 错误原因
+                raise Warning(str(errcode) + ':' + response_dic.get('errmsg', ''))   # raise 错误原因
             
             print response_dic
             
@@ -95,7 +95,7 @@ def get_code(request):
             info_dic = json.loads(info_response.read())                 # 解析json
             errcode = info_dic.get('errcode', None)              # 调用失败
             if errcode:
-                raise Warning(response_dic.get('errmsg', ''))   # raise 错误原因
+                raise Warning(str(errcode) + ':' + response_dic.get('errmsg', ''))   # raise 错误原因
 
             nickname = info_dic.get('nickname', '')
             sex = info_dic.get('sex', '')
@@ -107,4 +107,9 @@ def get_code(request):
 
             print info_dic
 
-        return HttpResponse('ok')
+            return render(request, 'reply.xml',
+                    {  
+                       'content': 'ok',
+                    },
+            content_type='application/xml'
+           )
