@@ -5,13 +5,21 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <title>WeUI</title>
         {% load staticfiles %}
-
 		<link rel="stylesheet" type="text/css" href="{% static 'css/weui.min.css' %}" />
     </head>
     <body>
-        <form class="mt10" action="{% url 'web_auth' %}" method="post">
-            <input type="radio" name="flag" value="1">同意授权
-            <input type="submit" class="weui_btn weui_btn_primary" value="Submit">
+        <div class="weui_msg">
+            <div class="weui_icon_area"><i class="weui_icon_safe weui_icon_safe_success"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title">请求授权</h2>
+                <p class="weui_msg_desc">获取微信的一些基本信息，作为开发测试，不保存，不做他用</p>
+            </div>
+        </div>
+        <form action="{% url 'web_auth' %}" method="post">
+            <input type=hidden name="flag" value="1">
+            <div class="button_sp_area">
+                <input type="submit" class="weui_btn weui_btn_primary" value="同意授权">
+            </div>
             {% csrf_token %}
         </form>
     </body>
