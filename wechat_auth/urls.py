@@ -27,3 +27,9 @@ urlpatterns = [
     url(r'^authorization/', include('authorization.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]
+
