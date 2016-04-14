@@ -109,10 +109,13 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework_xml.parsers.XMLParser',
+	'rest_framework.parsers.FormParser',
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework_xml.renderers.XMLRenderer',
-    ),
+	'rest_framework.renderers.JSONRenderer',
+    )
+,
 }
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -137,8 +140,8 @@ STATICFILES_DIRS = (
 )
 
 if DEBUG:
-    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar', )
-    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('debug_toolbar.middleware.DebugToolbarMiddleware', )
+    INSTALLED_APPS = INSTALLED_APPS + ['debug_toolbar', ]
+    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ['debug_toolbar.middleware.DebugToolbarMiddleware', ]
     LOG_FILE = '/tmp/wechat_auth.log'
 else:
     LOG_FILE = '/home/kidy/web_auth.log'
@@ -166,7 +169,7 @@ LOGGING = {
     'handlers': {
         'null': {
             'level': 'DEBUG',
-            'class': 'django.utils.log.NullHandler',
+            'class': 'logging.NullHandler',
         },
         'console': {
             'level': 'INFO',
