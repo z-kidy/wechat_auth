@@ -70,7 +70,7 @@ def web_auth(request):
         if flag:
             data = urllib.urlencode({
                 'appid': appID,
-                'redirect_uri': request.get_host() + reverse('get_code'),
+                'redirect_uri': 'http://' + request.get_host() + reverse('get_code'),
                 'response_type': 'code',
                 'scope': 'snsapi_userinfo',
                 'state': 'STATE',
