@@ -12,46 +12,11 @@
         <p class="weui_msg_desc">获取微信的一些基本信息，作为开发测试，不保存，不做他用</p>
     </div>
 </div>
-<form action="" method="post">
+<form action="{% url 'web_auth' %}" method="post">
     <input type=hidden name="flag" value="1">
     <div class="button_sp_area">
-        <input id="submit" type="submit" class="weui_btn weui_btn_primary" value="同意授权">
+        <input type="submit" class="weui_btn weui_btn_primary" value="同意授权">
     </div>
     {% csrf_token %}
-</form>
-
-<div id="toast" style="display: none;">
-    <div class="weui_mask_transparent"></div>
-    <div class="weui_toast">
-        <i class="weui_icon_toast"></i>
-        <p id="errmsg" class="weui_toast_content"></p>
-    </div>
-</div>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-
-        $("#submit").click(function(){
-            var 
-                flag = 1
-
-            $.post("{% url 'web_auth' %}",
-            {
-                flag: flag
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-            },function(data){
-                if (data.result===1) {
-                    window.location.href='/';
-                }else{ 
-                    var errmsg = data.errmsg;
-                    $('#errmsg').html( errmsg )
-                    $('#toast').css('display', 'block')
-                }
-            }
-            );
-
-        });
-
-    }
-</script>  
+</form>  
 {% endblock main %}
