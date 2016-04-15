@@ -9,7 +9,6 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
 from wechat_auth.settings import appID, appsecret, Token
 
@@ -46,8 +45,8 @@ def index(request):
         toUserName = data.get('ToUserName', '')
         fromUserName = data.get('FromUserName', '')
         msgType = data.get('MsgType', '')
-        content = data.get('Content', '')
-
+        # content = data.get('Content', '')
+        content = 'http://' + request.get_host() + reverse('web_auth')  # 作为测试，用户发送任何内容，都返回请求授权的地址
         return render(request, 'reply.xml',
                       {'toUserName': fromUserName,
                        'fromUserName': toUserName,
@@ -56,7 +55,6 @@ def index(request):
                        'content': content,
                        },
                       )
-
 
 def web_auth(request):
     """
@@ -81,7 +79,6 @@ def web_auth(request):
         else:
             return redirect(reverse('web_auth'))
 
-@api_view(['GET'])
 def get_code(request):
     """
     用户授予权限，获取code，通过code获取access_toekn, 再通过access_token获取用户信息
@@ -101,10 +98,7 @@ def get_code(request):
                                           )
             except Exception, reson:
                 logger.exception(u'调用微信api失败[%s]！', reson)
-                return Response({
-                    'result': 0,
-                    'error': u'调用微信api失败'
-                    })
+                return render(request, 'error.html')
 
             response_dic = json.loads(response.read())          # 解析json
             errcode = response_dic.get('errcode', None)         # 调用失败
@@ -112,10 +106,7 @@ def get_code(request):
                 # raise 错误原因
                 logger.exception(
                     u'调用微信api失败[%d:%s]！', errcode, response_dic.get('errmsg', ''))
-                return Response({
-                    'result': 0,
-                    'error': u'调用微信api失败'
-                })
+                return render(request, 'error.html')
 
             access_token = response_dic.get('access_token', '')
             openid = response_dic.get('openid', '')
@@ -133,10 +124,7 @@ def get_code(request):
                                                )
             except Exception, reson:
                 logger.exception(u'调用微信api失败[%s]！', reson)
-                return Response({
-                    'result': 0,
-                    'error': u'调用微信api失败'
-                    })
+                return render(request, 'error.html')
 
             info_dic = json.loads(info_response.read())          # 解析json
             errcode = info_dic.get('errcode', None)              # 调用失败
@@ -144,10 +132,7 @@ def get_code(request):
                 # raise 错误原因
                 logger.exception(
                     u'调用微信api失败[%d:%s]！', errcode, response_dic.get('errmsg', ''))
-                return Response({
-                    'result': 0,
-                    'error': u'调用微信api失败'
-                })
+                return render(request, 'error.html')
 
             nickname = info_dic.get('nickname', '')              # 昵称
             sex = info_dic.get('sex', 0)                         # 性别
