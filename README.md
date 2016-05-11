@@ -1,8 +1,8 @@
-安装virtualenv:
+# 安装virtualenv:
 
 	sudo pip install virtualenv
 
-创建虚拟环境:
+# 创建虚拟环境:
 
 	virtualenv wechat_env
 
@@ -29,3 +29,7 @@
 + 配置logger
 + 配置STATICFILES_DIRS， TEMPLATES
 + 此处没有涉及数据保存，生产环境下要配置好MySql,Redis等
+
+# 心路历程blog
+
+[http://z-kidy.github.io/blog/2016/05/11/django-wechat_auth.html](http://z-kidy.github.io/blog/2016/05/11/django-wechat_auth.html)
